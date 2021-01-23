@@ -76,5 +76,5 @@ List of end-points:
 | POST					| /records/upload			| Upload your own data to the system, currently support extension .csv, .piped, and .space			|
 
 
-![swagger](https://github.com/burinc/demo-svc/blob/master/resources/swagger.png?raw=true)
+![swagger](https://github.com/burinc/demo-svc/blob/main/resources/swagger.png?raw=true)
 
