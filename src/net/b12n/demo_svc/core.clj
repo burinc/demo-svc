@@ -5,10 +5,17 @@
    [clojure.spec.alpha
     :as s]
    [clojure.string
-    :as str])
+    :as str]
+   [clojure.tools.logging :as log]
+   [docopt.core :as docopt]
+   [me.raynes.fs
+    :refer [expand-home]]
+   [net.b12n.demo-svc.utils
+    :refer [transform-keys]])
   (:import
    [java.time.format
-    DateTimeFormatter]))
+    DateTimeFormatter])
+  (:gen-class))
 
 ;; specs
 (s/def ::last-name string?)
@@ -84,3 +91,54 @@
       (assoc (s/conform ::input-line result)
              :err nil)
       {:err (s/explain-str ::input-line result)})))
+
+(def usage "srk - Simple Record Keeper library
+
+Usage:
+  srk [--input-file=<input-file> --file-type=<file-type> | --help ]
+
+Options:
+  -i, --input-file=<input-file>  Input file to use [default: data.csv]
+  -t, --file-type=<file-type>    File type (one of csv, piped, and space) [default: csv]
+  -h, --help                     Print this usage
+
+  Example Usage:
+  # a) Load input file of type 'csv' to the system
+  srk -i ./resources/data.csv -t csv
+
+  # b) Load input file of type 'piped' to the system
+  srk -i ./resources/data.piped -t piped
+
+  # c) Load input file of type 'space' to the system
+  srk -i ./resoures/data.space -t space
+
+  # c) Show help
+  srk -h")
+
+(defn ^:private load-and-display
+  [{:keys [input-file file-type]}]
+  (let [file-type (keyword file-type)
+        input-file (expand-home input-file)])
+  (log/info (format "TODO: load data from %s of type %s"
+                    input-file
+                    file-type)))
+
+(defn ^:private run
+  [& [{:keys [input-file file-type help] :as args}]]
+  (cond
+    help
+    (println usage)
+
+    :else
+    (-> args
+        (select-keys [:input-file :file-type])
+        load-and-display)))
+
+(defn -main
+  [& args]
+  (docopt/docopt usage
+                 args
+                 (fn [arg-map]
+                   (-> arg-map
+                       transform-keys
+                       run))))

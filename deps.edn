@@ -12,7 +12,10 @@
   ring/ring-core                {:mvn/version "1.8.2"}
   ring/ring-jetty-adapter       {:mvn/version "1.8.2"}
   ring/ring-json                {:mvn/version "0.5.0"}
-  clj-http/clj-http             {:mvn/version "3.10.3"}}
+  clj-http/clj-http             {:mvn/version "3.10.3"}
+  ;; For better CLI
+  docopt/docopt {:git/url "https://github.com/nubank/docopt.clj"
+                 :sha "98814f559d2e50fdf10f43cbe3b7da0ca3cca423"}}
 
  :aliases
  {:depstar

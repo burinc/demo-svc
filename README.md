@@ -48,14 +48,14 @@ Ran 7 tests containing 37 assertions.
 Ran tests.
 Writing HTML report to: /home/b12n/codes/demo-svc/target/coverage/index.html
 
-|--------------------------+---------+---------|
+|--------------------------|---------|---------|
 |                Namespace | % Forms | % Lines |
-|--------------------------+---------+---------|
+|--------------------------|---------|---------|
 |   net.b12n.demo-svc.core |   99.41 |  100.00 |
 | net.b12n.demo-svc.server |   63.55 |   80.20 |
-|--------------------------+---------+---------|
+|--------------------------|---------|---------|
 |                ALL FILES |   69.76 |   83.33 |
-|--------------------------+---------+---------|
+|--------------------------|---------|---------|
 ```
 
 The server is avilable for test via the Swagger at [http://localhost:3000/](http://localhost:3000/)
@@ -78,3 +78,38 @@ List of end-points:
 
 ![swagger](https://github.com/burinc/demo-svc/blob/main/resources/swagger.png?raw=true)
 
+### CLI usage
+
+For loading data via the CLI you can run the following command
+
+```sh
+# To see the basic usage
+lein run -m net.b12n.demo-svc.core --help
+```
+
+This should give you the following output
+
+```
+srk - Simple Record Keeper library
+
+Usage:
+  srk [--input-file=<input-file> --file-type=<file-type> | --help ]
+
+Options:
+  -i, --input-file=<input-file>  Input file to use [default: data.csv]
+  -t, --file-type=<file-type>    File type (one of csv, piped, and space) [default: csv]
+  -h, --help                     Print this usage
+
+  Example Usage:
+  # a) Load input file of type 'csv' to the system
+  srk -i ./resources/data.csv -t csv
+
+  # b) Load input file of type 'piped' to the system
+  srk -i ./resources/data.piped -t piped
+
+  # c) Load input file of type 'space' to the system
+  srk -i ./resoures/data.space -t space
+
+  # c) Show help
+  srk -h
+```
