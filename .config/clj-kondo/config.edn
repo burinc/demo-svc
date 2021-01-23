@@ -1,0 +1,9 @@
+{:hooks   {}
+ :lint-as {}
+ :linters {:shadowed-var
+           {:level :warning}
+           :unsorted-required-namespace
+           {:level :warning}
+           :unused-binding
+            {:exclude-destructured-keys-in-fn-args true
+             :exclude-destructured-as true}}}

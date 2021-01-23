@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+## Run live server - required for integration test
+set -eo pipefail
+lein run -m net.b12n.demo-svc.server

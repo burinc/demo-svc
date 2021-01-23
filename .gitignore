@@ -1,0 +1,16 @@
+/target
+*.zip
+/classes
+/checkouts
+profiles.clj
+pom.xml.asc
+*.jar
+*.class
+/.lein-*
+/.nrepl-port
+.hgignore
+.hg/
+dist
+.cpcache/
+## We intentionally ignore file in upload directory
+uploads/
