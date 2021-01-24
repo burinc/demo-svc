@@ -124,10 +124,10 @@ OpenJDK 64-Bit Server VM warning: forcing TieredStopAtLevel to full optimization
 If there are a lot of uncached dependencies this might take a while ...
 OpenJDK 64-Bit Server VM warning: forcing TieredStopAtLevel to full optimization because JVMCI is enabled
 [main] INFO net.b12n.demo-svc.core - Load data from resources/data-with-invalid-lines.csv of type :csv
-[main] WARN net.b12n.demo-svc.core - Invalid line : `%s` due to `%s` Johnson,Josh,M,Blue,06/18/19XX "06/18/19XX" - failed: valid-date? in: [4] at: [:date-of-birth] spec: :net.b12n.demo-svc.core/date-of-birth
-
-[main] WARN net.b12n.demo-svc.core - Invalid line : `%s` due to `%s` Barry,Jane,X,Pink,07/18/1950 "X" - failed: valid-gender? in: [2] at: [:gender] spec: :net.b12n.demo-svc.core/gender
-
+[main] WARN net.b12n.demo-svc.core - Invalid line : `Johnson,Josh,M,Blue,06/18/19XX` due to `"06/18/19XX" - failed: valid-date? in: [4] at: [:date-of-birth] spec: :net.b12n.demo-svc.core/date-of-birth
+`
+[main] WARN net.b12n.demo-svc.core - Invalid line : `Barry,Jane,X,Pink,07/18/1950` due to `"X" - failed: valid-gender? in: [2] at: [:gender] spec: :net.b12n.demo-svc.core/gender
+`
 a) sorted by gender and then last name (ascending)
 ({:last-name "Barry",
   :first-name "Jane",
@@ -149,6 +149,7 @@ a) sorted by gender and then last name (ascending)
   :gender "M",
   :fav-color "Red",
   :date-of-birth "06/18/2000"})
+
 b) sorted by last name (descending)
 ({:last-name "Smith",
   :first-name "John",
@@ -170,6 +171,7 @@ b) sorted by last name (descending)
   :gender "F",
   :fav-color "Pink",
   :date-of-birth "07/18/1950"})
+
 c) sorted by first name (ascending)
 ({:last-name "Smith",
   :first-name "John",
@@ -191,6 +193,7 @@ c) sorted by first name (ascending)
   :gender "F",
   :fav-color "Pink",
   :date-of-birth "07/18/1950"})
+
 d) sorted by date of birth (ascending)
 ({:last-name "Barry",
   :first-name "Jane",
