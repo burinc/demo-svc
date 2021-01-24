@@ -123,16 +123,30 @@ Options:
   [{:keys [input-file file-type]}]
   (let [file-type (keyword file-type)
         input-file (expand-home input-file)]
-    (log/info (format "TODO: load data from %s of type %s"
+    (log/info (format "Load data from %s of type %s"
                       input-file
                       file-type))
     ;; Now we can check and confirm if the file is valid input
     (if (s/valid? ::supported-formats file-type)
-      (let [data (-> input-file
-                     slurp
-                     (str/split-lines))]
-        ;; Add basic wiring
-        (log/info "Your data :" data))
+      (when-let [lines (-> input-file
+                           slurp
+                           (str/split-lines))]
+        (let [valid-lines (->> (for [line lines
+                                     :let [{:keys [last-name
+                                                   first-name
+                                                   gender
+                                                   fav-color
+                                                   date-of-birth
+                                                   err] :as args} (parse-and-validate {:type file-type
+                                                                                       :data line})]]
+                                 ;; NOTE: will just log the error and take only a valid line
+                                 (if err (log/warn (format "Invalid line of data : %s" {:line line
+                                                                                        :err err}))
+                                     ;; Return the data without the error
+                                     (dissoc args :err)))
+                               ;; Remove the rows that contain the error e.g. nil in the result
+                               (filter identity))]
+          (println valid-lines)))
       (do
         (log/warn (format "Must be one of the following format %s."
                           (->> supported-formats
