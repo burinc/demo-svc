@@ -93,13 +93,13 @@
             (log/warn (format "Skipping this line as it is not valid input : %s" line))
             (log/warn (format "Reason: %s" err))))))))
 
-(defn all-data-handler
+(defn ^:private all-data-handler
   [_]
   {:status 200
    :headers {"Content-Type" "text/json"}
    :body (-> @people-db write-value-as-string)})
 
-(defn gender-handler
+(defn ^:private gender-handler
   [_]
   {:status 200
    :headers {"Content-Type" "text/json"}
@@ -107,7 +107,7 @@
              sorted-by-gender-then-last-name-asc
              write-value-as-string)})
 
-(defn birth-date-handler
+(defn ^:private birth-date-handler
   [_]
   {:status 200
    :headers {"Content-Type" "text/json"}
@@ -115,7 +115,7 @@
              sorted-by-birth-date-asc
              write-value-as-string)})
 
-(defn first-name-handler
+(defn ^:private first-name-handler
   [_]
   {:status 200
    :headers {"Content-Type" "text/json"}
@@ -123,7 +123,7 @@
              sorted-by-first-name-asc
              write-value-as-string)})
 
-(defn last-name-handler
+(defn ^:private last-name-handler
   [_]
   {:status 200
    :headers {"Content-Type" "text/json"}
@@ -131,7 +131,7 @@
              sorted-by-last-name-dsc
              write-value-as-string)})
 
-(defn delete-record-handler
+(defn ^:private delete-record-handler
   [_]
   (when-let [records-count (count @people-db)]
     (log/info (format "Delete %s records from the system" records-count))
@@ -140,7 +140,7 @@
      :body (write-value-as-string {:deleted-count records-count})
      :headers {"Content-Type" "text/json"}}))
 
-(defn create-record-handler
+(defn ^:private create-record-handler
   [{{{:keys [last-name
              first-name
              gender
@@ -305,7 +305,4 @@
 (defn -main
   [& args]
   (log/info "Starting main application")
-  (start))
-
-(comment
   (start))
