@@ -67,16 +67,16 @@ Swagger Schema is available at [http://localhost:3000/swagger.json](http://local
 
 List of end-points:
 
-| Request Type	| End Point						| Description																																										|
-|--------------	|--------------------	|---------------------------------------------------------------------------------------------	|
-| GET						| /records/						| List all records in the system																																|
-| POST					| /records/						| Add a single record to the system																															|
-| DELETE				| /records/						| Delete all records in the system																															|
-| GET						| /records/birthdate	| List all records sorted by date-of-birth (ascending)																					|
-| GET						| /records/firstname	| List all records sorted by first name (ascending)																							|
-| GET						| /records/gender			| List all records sorted by gender (female before male) and last name (ascending)							|
-| GET						| /records/lastname		| List all records sorted by last name (descending)																							|
-| POST					| /records/upload			| Upload your own data to the system, currently support extension .csv, .piped, and .space			|
+| Request Type  | End Point           | Description                                                                                   |
+|-------------- |-------------------- |---------------------------------------------------------------------------------------------  |
+| GET           | /records/           | List all records in the system                                                                |
+| POST          | /records/           | Add a single record to the system                                                             |
+| DELETE        | /records/           | Delete all records in the system                                                              |
+| GET           | /records/birthdate  | List all records sorted by date-of-birth (ascending)                                          |
+| GET           | /records/firstname  | List all records sorted by first name (ascending)                                             |
+| GET           | /records/gender     | List all records sorted by gender (female before male) and last name (ascending)              |
+| GET           | /records/lastname   | List all records sorted by last name (descending)                                             |
+| POST          | /records/upload     | Upload your own data to the system, currently support extension .csv, .piped, and .space      |
 
 
 ![swagger](https://github.com/burinc/demo-svc/blob/main/resources/swagger.png?raw=true)
