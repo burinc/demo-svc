@@ -4,4 +4,5 @@ set -eo pipefail
 clj \
  -M:test \
  -n net.b12n.demo-svc.core-test \
- -n net.b12n.demo-svc.server-test
+ -n net.b12n.demo-svc.utils-test \
+-n net.b12n.demo-svc.server-test
