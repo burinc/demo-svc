@@ -1,4 +1,4 @@
-# demo-svc - Simple REST api build
+# demo-svc - Simple REST Api + CLI Application
 
 ## Design Decision
 
@@ -110,7 +110,7 @@ List of end-points:
 
 ### CLI usage
 
-For loading data via the CLI you can run the following command
+The CLI application will take input from the command line and print the result on the screen.
 
 ```sh
 # To see the basic usage
@@ -144,7 +144,7 @@ Options:
   srk -h
 ```
 
-Example Output: using `./resources/data-with-invalid-lines.csv` input
+Example Output: using `./resources/data-with-invalid-lines.csv`
 
 See also `run-cli` for more details
 
