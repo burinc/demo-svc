@@ -246,3 +246,87 @@ d) sorted by date of birth (ascending)
   :fav-color "Red",
   :date-of-birth "06/18/2000"})
 ```
+
+## TLDRs
+
+To see the result quickly try this via Swagger UI
+
+Start the server (default to port `3000` on localhost)
+
+```
+./run-server
+```
+
+Then open your browser to [http://localhost:3000](http://localhost:3000)
+
+Since you just started you will need to populate the internal data using `
+
+- [POST : records/upload](http://localhost:3000/index.html#/records/post_records_upload) endpoint
+
+Select the file [resources/data-with-invalid-lines.csv](https://github.com/burinc/demo-svc/blob/main/resources/data-with-invalid-lines.csv)
+
+This contains 6 sample line of data 2 of which are invalid.
+
+For pipe-delimited input file you can use [resources/data.piped](https://github.com/burinc/demo-svc/blob/main/resources/data.piped).
+And for space-delimited input file you can use [resources/data.space](https://github.com/burinc/demo-svc/blob/main/resources/data.space).
+
+
+Then you can see list of data via [GET records/](http://localhost:3000/index.html#/records/get_records_)
+
+Also you can try other end-points from the following list:
+
+- [GET : records/birthdate](http://localhost:3000/index.html#/records/get_records_birthdate)
+- [GET : records/firstname](http://localhost:3000/index.html#/records/get_records_firstname)
+- [GET : records/gender](http://localhost:3000/index.html#/records/get_records_gender)
+- [GET : records/lastname](http://localhost:3000/index.html#/records/get_records_lastname)
+
+And you can also clear records using
+
+- [DELETE : records/](http://localhost:3000/index.html#/records/delete_records_)
+
+To add just a single record you can use
+
+- [POST : record](http://localhost:3000/index.html#/records/post_records_) end-point.
+
+The payload should be something like valid json e.g.
+
+```
+{
+  "last-name": "Smith",
+  "first-name": "John",
+  "gender": "M",
+  "fav-color": "Green",
+  "date-of-birth": "02/18/1980"
+}
+```
+
+The only two fileds that you need to be aware of are `gender` and `date-of-birth`
+
+If you supply the invalid payload then you will see something like:
+
+```
+{
+  "data": {
+    "last-name": "string",
+    "first-name": "string",
+    "date-of-birth": "string",
+    "fav-color": "string",
+    "gender": "string"
+  },
+  "err": "\"string\" - failed: valid-gender? in: [2] at: [:gender] spec: :net.b12n.demo-svc.core/gender\n"
+}
+```
+Or
+
+```
+{
+  "data": {
+    "last-name": "Posh",
+    "first-name": "Jenny",
+    "date-of-birth": "10/02/20XX",
+    "fav-color": "Green",
+    "gender": "F"
+  },
+  "err": "\"10/02/20XX\" - failed: valid-date? in: [4] at: [:date-of-birth] spec: :net.b12n.demo-svc.core/date-of-birth\n"
+}
+```
