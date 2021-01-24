@@ -49,6 +49,8 @@
     (catch Exception _e
       false)))
 
+(def supported-formats #{:piped :csv :space})
+
 (s/def ::date-of-birth (s/and string? valid-date?))
 
 (s/def ::piped "|")
@@ -58,6 +60,8 @@
 (s/def ::space " ")
 
 (s/def ::delimiters #{::piped ::csv ::space})
+
+(s/def ::supported-formats supported-formats)
 
 (s/def ::sort-keys #{:gender-lastname :date-of-birth :first-name :last-name :fav-color})
 
@@ -118,10 +122,18 @@ Options:
 (defn ^:private load-and-display
   [{:keys [input-file file-type]}]
   (let [file-type (keyword file-type)
-        input-file (expand-home input-file)])
-  (log/info (format "TODO: load data from %s of type %s"
-                    input-file
-                    file-type)))
+        input-file (expand-home input-file)]
+    (log/info (format "TODO: load data from %s of type %s"
+                      input-file
+                      file-type))
+    ;; Now we can check and confirm if the file is valid input
+    (if (s/valid? ::supported-formats file-type)
+      :ok
+      (do
+        (log/warn (format "Must be one of the following format %s."
+                          (->> supported-formats
+                               (map name)
+                               (str/join ", "))))))))
 
 (defn ^:private run
   [& [{:keys [input-file file-type help] :as args}]]
@@ -141,4 +153,5 @@ Options:
                  (fn [arg-map]
                    (-> arg-map
                        transform-keys
-                       run))))
+                       run)))
+  (System/exit 0))
