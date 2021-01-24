@@ -35,7 +35,7 @@
 (deftest parse-date-test
   (testing "parse-date"
     (is (thrown? DateTimeException (parse-date "24/01/2014" "MM/dd/yyyy")))
-    (is (= (type (parse-date "12/01/2014" "MM/dd/yyyy"))) LocalDate)))
+    (is (= (type (parse-date "12/01/2014" "MM/dd/yyyy")) LocalDate))))
 
 (def jill-henry
   {:last-name "Henry",

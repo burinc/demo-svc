@@ -8,11 +8,7 @@
     :refer [filter-invalid-lines
             filter-valid-lines
             parse-and-validate
-            parse-record]])
-  (:import
-   [java.time
-    DateTimeException
-    LocalDate]))
+            parse-record]]))
 
 (deftest filter-valid-lines-test
   (testing "filter-valid-lines"
