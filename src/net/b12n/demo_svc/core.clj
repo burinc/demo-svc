@@ -16,6 +16,7 @@
             transform-keys
             sorted-by-gender-then-last-name-asc
             sorted-by-last-name-dsc
+            sorted-by-first-name-asc
             sorted-by-birth-date-asc]])
   (:gen-class))
 
@@ -160,7 +161,7 @@ Options:
   (-> records sorted-by-last-name-dsc pprint)
 
   (println "c) sorted by first name (ascending)\n")
-  (-> records sorted-by-last-name-dsc pprint)
+  (-> records sorted-by-first-name-asc pprint)
 
   (println "d) sorted by date of birth (ascending)\n")
   (-> records sorted-by-birth-date-asc pprint))

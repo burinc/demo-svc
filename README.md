@@ -159,6 +159,7 @@ OpenJDK 64-Bit Server VM warning: forcing TieredStopAtLevel to full optimization
 [main] WARN net.b12n.demo-svc.core - Invalid line : `Barry,Jane,X,Pink,07/18/1950` due to `"X" - failed: valid-gender? in: [2] at: [:gender] spec: :net.b12n.demo-svc.core/gender
 `
 a) sorted by gender and then last name (ascending)
+
 ({:last-name "Barry",
   :first-name "Jane",
   :gender "F",
@@ -179,8 +180,8 @@ a) sorted by gender and then last name (ascending)
   :gender "M",
   :fav-color "Red",
   :date-of-birth "06/18/2000"})
-
 b) sorted by last name (descending)
+
 ({:last-name "Smith",
   :first-name "John",
   :gender "M",
@@ -201,9 +202,19 @@ b) sorted by last name (descending)
   :gender "F",
   :fav-color "Pink",
   :date-of-birth "07/18/1950"})
-
 c) sorted by first name (ascending)
-({:last-name "Smith",
+
+({:last-name "Barry",
+  :first-name "Jane",
+  :gender "F",
+  :fav-color "Pink",
+  :date-of-birth "07/18/1950"}
+ {:last-name "Henry",
+  :first-name "Jill",
+  :gender "F",
+  :fav-color "White",
+  :date-of-birth "10/18/1980"}
+ {:last-name "Smith",
   :first-name "John",
   :gender "M",
   :fav-color "Red",
@@ -212,19 +223,9 @@ c) sorted by first name (ascending)
   :first-name "Josh",
   :gender "M",
   :fav-color "Blue",
-  :date-of-birth "06/18/1990"}
- {:last-name "Henry",
-  :first-name "Jill",
-  :gender "F",
-  :fav-color "White",
-  :date-of-birth "10/18/1980"}
- {:last-name "Barry",
-  :first-name "Jane",
-  :gender "F",
-  :fav-color "Pink",
-  :date-of-birth "07/18/1950"})
-
+  :date-of-birth "06/18/1990"})
 d) sorted by date of birth (ascending)
+
 ({:last-name "Barry",
   :first-name "Jane",
   :gender "F",
