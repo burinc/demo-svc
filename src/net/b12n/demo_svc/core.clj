@@ -186,7 +186,7 @@ Options:
         (let [invalid-lines (filter-invalid-lines raw-lines file-type)
               _ (if-not (-> invalid-lines count zero?)
                   (doseq [{:keys [data err]} (filter-invalid-lines raw-lines :csv)]
-                    (log/warn "Invalid line : `%s` due to `%s`" data err)))
+                    (log/warn (format "Invalid line : `%s` due to `%s`" data err))))
               valid-lines (filter-valid-lines raw-lines file-type)]
           (do
             (println "a) sorted by gender and then last name (ascending)")
