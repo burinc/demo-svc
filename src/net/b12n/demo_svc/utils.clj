@@ -22,3 +22,13 @@
   ;;=> {:profile \"dev\" :create \"true\"} "
   [opts]
   (map-keys (fn [x] (-> x (str/replace-first "--" "") keyword)) opts))
+
+(defn sorted-by-gender-then-last-name-asc
+  [data]
+  (->> data (sort (fn [x y]
+                    (let [c (compare (-> x :gender str/lower-case)
+                                     (-> y :gender str/lower-case))]
+                      (if-not (zero? c)
+                        c
+                        (compare (:last-name x)
+                                 (:last-name y))))))))

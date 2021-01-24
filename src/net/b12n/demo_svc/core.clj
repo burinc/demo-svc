@@ -11,7 +11,8 @@
    [me.raynes.fs
     :refer [expand-home]]
    [net.b12n.demo-svc.utils
-    :refer [transform-keys]])
+    :refer [transform-keys
+            sorted-by-gender-then-last-name-asc]])
   (:import
    [java.time.format
     DateTimeFormatter])
@@ -146,7 +147,10 @@ Options:
                                      (dissoc args :err)))
                                ;; Remove the rows that contain the error e.g. nil in the result
                                (filter identity))]
-          (println valid-lines)))
+          ;; TODO: display them in 3 ways
+          #_(println valid-lines)
+          (-> valid-lines sorted-by-gender-then-last-name-asc
+              clojure.pprint/pprint)))
       (do
         (log/warn (format "Must be one of the following format %s."
                           (->> supported-formats
