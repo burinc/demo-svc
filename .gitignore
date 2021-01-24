@@ -14,3 +14,5 @@ dist
 .cpcache/
 ## We intentionally ignore file in upload directory
 uploads/
+## result binary from lein-binplus plugin
+srk

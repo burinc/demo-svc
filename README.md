@@ -112,12 +112,32 @@ List of end-points:
 
 The CLI application will take input from the command line and print the result on the screen.
 
+First build the self-executable binary using [lein-binplus](https://github.com/BrunoBonacci/lein-binplus) plugins
+
 ```sh
-# To see the basic usage
-lein run -m net.b12n.demo-svc.core --help
+lein bin
 ```
 
 This should give you the following output
+
+```
+## ... more logs, omitted for brevity
+## ...
+Created /home/b12n/codes/demo-svc/target/demo-svc-cli-1.0.0-standalone.jar
+Creating standalone executable: /home/b12n/codes/demo-svc/target/srk
+Re-aligning zip offsets
+Copying binary to .
+```
+
+As a result we should have the self-executable `./srk` at the root of the project.
+
+To start using this we can simply run the following command
+
+```sh
+./srk -h
+```
+
+This should print the following output to the screen:
 
 ```
 srk - Simple Record Keeper library
@@ -146,10 +166,11 @@ Options:
 
 Example Output: using `./resources/data-with-invalid-lines.csv`
 
-See also `run-cli` for more details
+Then we can use this to run the main CLI application
 
 ```
-$./run-cli
+./srk -i ./resources/data-with-invalid-lines.csv -t csv
+
 OpenJDK 64-Bit Server VM warning: forcing TieredStopAtLevel to full optimization because JVMCI is enabled
 If there are a lot of uncached dependencies this might take a while ...
 OpenJDK 64-Bit Server VM warning: forcing TieredStopAtLevel to full optimization because JVMCI is enabled
@@ -248,7 +269,7 @@ d) sorted by date of birth (ascending)
   :date-of-birth "06/18/2000"})
 ```
 
-## TLDRs
+### REST API usage via Swagger
 
 To see the result quickly try this via Swagger UI
 
@@ -266,11 +287,15 @@ Since you just started you will need to populate the internal data using `
 
 Select the file [resources/data-with-invalid-lines.csv](https://github.com/burinc/demo-svc/blob/main/resources/data-with-invalid-lines.csv)
 
-This contains 6 sample line of data 2 of which are invalid.
+This file contains 6 sample line of data 2 of which are invalid.
 
-For pipe-delimited input file you can use [resources/data.piped](https://github.com/burinc/demo-svc/blob/main/resources/data.piped).
-And for space-delimited input file you can use [resources/data.space](https://github.com/burinc/demo-svc/blob/main/resources/data.space).
+For pipe-delimited input file you can use
 
+- [resources/data.piped](https://github.com/burinc/demo-svc/blob/main/resources/data.piped).
+
+And for space-delimited input file you can use
+
+- [resources/data.space](https://github.com/burinc/demo-svc/blob/main/resources/data.space).
 
 Then you can see list of data via [GET records/](http://localhost:3000/index.html#/records/get_records_)
 
@@ -291,7 +316,7 @@ To add just a single record you can use
 
 The payload should be something like valid json e.g.
 
-```
+```json
 {
   "last-name": "Smith",
   "first-name": "John",
@@ -305,7 +330,7 @@ The only two fileds that you need to be aware of are `gender` and `date-of-birth
 
 If you supply the invalid payload then you will see something like:
 
-```
+```clojure
 {
   "data": {
     "last-name": "string",
@@ -317,9 +342,9 @@ If you supply the invalid payload then you will see something like:
   "err": "\"string\" - failed: valid-gender? in: [2] at: [:gender] spec: :net.b12n.demo-svc.core/gender\n"
 }
 ```
-Or
+Or if all other fields are valid, except the `date-of-birth` you should get something like
 
-```
+```clojure
 {
   "data": {
     "last-name": "Posh",
