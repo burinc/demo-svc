@@ -18,23 +18,23 @@ Then run basic tests via `./run-test-with-code-coverage`
 set -eo pipefail
 ## Note: must start system first via $lein run
 ## as this will run regular test + integration tests which require live server to be up
-lein cloverage
+lein cloverage -p src -s test -n net\.b12n\.demo-svc\.*
 ```
 
 Which should produce result similar to:
 
-
 ```
-./run-test-with-code-coverage
+$./run-test-with-code-coverage
 OpenJDK 64-Bit Server VM warning: forcing TieredStopAtLevel to full optimization because JVMCI is enabled
 If there are a lot of uncached dependencies this might take a while ...
 OpenJDK 64-Bit Server VM warning: forcing TieredStopAtLevel to full optimization because JVMCI is enabled
-Loading namespaces:  (net.b12n.demo-svc.core net.b12n.demo-svc.server)
-Test namespaces:  (net.b12n.demo-svc.core-test net.b12n.demo-svc.server-integration-test net.b12n.demo-svc.server-test)
+Loading namespaces:  (net.b12n.demo-svc.utils net.b12n.demo-svc.core net.b12n.demo-svc.server)
+Test namespaces:  (net.b12n.demo-svc.core-test net.b12n.demo-svc.server-integration-test net.b12n.demo-svc.server-test net.b12n.demo-svc.utils-test)
+Instrumented net.b12n.demo-svc.utils
 Instrumented net.b12n.demo-svc.core
-[main] INFO org.eclipse.jetty.util.log - Logging initialized @5120ms to org.eclipse.jetty.util.log.Slf4jLog
+[main] INFO org.eclipse.jetty.util.log - Logging initialized @5254ms to org.eclipse.jetty.util.log.Slf4jLog
 Instrumented net.b12n.demo-svc.server
-Instrumented 2 namespaces in 2.6 seconds.
+Instrumented 3 namespaces in 2.7 seconds.
 
 Testing net.b12n.demo-svc.core-test
 
@@ -43,19 +43,22 @@ Testing net.b12n.demo-svc.server-integration-test
 
 Testing net.b12n.demo-svc.server-test
 
-Ran 7 tests containing 37 assertions.
+Testing net.b12n.demo-svc.utils-test
+
+Ran 11 tests containing 42 assertions.
 0 failures, 0 errors.
 Ran tests.
 Writing HTML report to: /home/b12n/codes/demo-svc/target/coverage/index.html
 
-|--------------------------|---------|---------|
+|--------------------------+---------+---------|
 |                Namespace | % Forms | % Lines |
-|--------------------------|---------|---------|
-|   net.b12n.demo-svc.core |   99.41 |  100.00 |
-| net.b12n.demo-svc.server |   63.55 |   80.20 |
-|--------------------------|---------|---------|
-|                ALL FILES |   69.76 |   83.33 |
-|--------------------------|---------|---------|
+|--------------------------+---------+---------|
+|   net.b12n.demo-svc.core |   52.86 |   58.00 |
+| net.b12n.demo-svc.server |   59.12 |   77.59 |
+|  net.b12n.demo-svc.utils |  100.00 |  100.00 |
+|--------------------------+---------+---------|
+|                ALL FILES |   60.58 |   73.53 |
+|--------------------------+---------+---------|
 ```
 
 The server is avilable for test via the Swagger at [http://localhost:3000/](http://localhost:3000/)
