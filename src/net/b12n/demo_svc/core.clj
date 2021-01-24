@@ -115,7 +115,6 @@ Options:
   # c) Show help
   srk -h")
 
-
 (defn process-lines
   [lines file-type]
   (for [line lines
@@ -129,16 +128,32 @@ Options:
        :file-type file-type
        :err       nil})))
 
-#_
-(comment
-  ;; filter out the valid input only
-  (when-let [lines (-> "./resources/data-with-invalid-lines.csv"
-                       slurp
-                       str/split-lines)]
-    (->> (process-lines lines :csv)
-         (filter (fn [x]
-                   (-> x :err not)))
-         (map (fn [x] (dissoc x :err))))))
+(defn filter-valid-lines
+  [lines file-type]
+  (->> (process-lines lines :csv)
+       (filter (fn [x]
+                 (-> x :err not)))
+       (map (fn [x] (dissoc x :err)))))
+
+#_(comment
+    ;; filter out the valid input only
+    (when-let [lines (-> "./resources/data-with-invalid-lines.csv"
+                         slurp
+                         str/split-lines)]
+      (filter-valid-lines lines :csv)))
+
+(defn filter-invalid-lines
+  [lines file-type]
+  (->> (process-lines lines :csv)
+       (filter (fn [x]
+                 (-> x :err)))))
+
+#_(comment
+    ;; filter out the invalid input only
+    (when-let [lines (-> "./resources/data-with-invalid-lines.csv"
+                         slurp
+                         str/split-lines)]
+      (filter-invalid-lines lines :csv)))
 
 (defn ^:private load-and-display
   [{:keys [input-file file-type]}]
@@ -149,24 +164,14 @@ Options:
                       file-type))
     ;; Now we can check and confirm if the file is valid input
     (if (s/valid? ::supported-formats file-type)
-      (when-let [lines (-> input-file
-                           slurp
-                           (str/split-lines))]
-        (let [valid-lines (->> (for [line lines
-                                     :let [{:keys [last-name
-                                                   first-name
-                                                   gender
-                                                   fav-color
-                                                   date-of-birth
-                                                   err] :as args} (parse-and-validate {:type file-type
-                                                                                       :data line})]]
-                                 ;; NOTE: will just log the error and take only a valid line
-                                 (if err (log/warn (format "Invalid line of data : %s" {:line line
-                                                                                        :err err}))
-                                     ;; Return the data without the error
-                                     (dissoc args :err)))
-                               ;; Remove the rows that contain the error e.g. nil in the result
-                               (filter identity))]
+      (when-let [raw-lines (-> input-file
+                               slurp
+                               (str/split-lines))]
+        (let [invalid-lines (filter-invalid-lines raw-lines file-type)
+              _ (if-not (-> invalid-lines count zero?)
+                  (doseq [line invalid-lines]
+                    (log/warn line)))
+              valid-lines (filter-valid-lines raw-lines file-type)]
 
           (println "a) sorted by gender and then last name (ascending)")
           (-> valid-lines sorted-by-gender-then-last-name-asc pprint)
