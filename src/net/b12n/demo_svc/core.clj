@@ -1,21 +1,23 @@
 (ns net.b12n.demo-svc.core
   (:require
-   [cljc.java-time.local-date
-    :refer [parse]]
    [clojure.spec.alpha
     :as s]
    [clojure.string
     :as str]
-   [clojure.tools.logging :as log]
+   [clojure.pprint
+    :refer [pprint]]
+   [clojure.tools.logging
+    :as log]
    [docopt.core :as docopt]
    [me.raynes.fs
     :refer [expand-home]]
    [net.b12n.demo-svc.utils
-    :refer [transform-keys
-            sorted-by-gender-then-last-name-asc]])
-  (:import
-   [java.time.format
-    DateTimeFormatter])
+    :refer [parse-date
+            transform-keys
+            sorted-by-gender-then-last-name-asc
+            sorted-by-first-name-asc
+            sorted-by-last-name-dsc
+            sorted-by-birth-date-asc]])
   (:gen-class))
 
 ;; specs
@@ -35,13 +37,6 @@
                        valid-gender?))
 
 (s/def ::fav-color string?)
-
-(defn parse-date
-  ([date-string]
-   (parse-date date-string "MM/dd/yyyy"))
-  ([date-string date-format]
-   (-> date-string
-       (parse (DateTimeFormatter/ofPattern date-format)))))
 
 (defn ^:private valid-date?
   [date-string]
@@ -147,10 +142,18 @@ Options:
                                      (dissoc args :err)))
                                ;; Remove the rows that contain the error e.g. nil in the result
                                (filter identity))]
-          ;; TODO: display them in 3 ways
-          #_(println valid-lines)
-          (-> valid-lines sorted-by-gender-then-last-name-asc
-              clojure.pprint/pprint)))
+
+          (println "a) sorted by gender and then last name (ascending)")
+          (-> valid-lines sorted-by-gender-then-last-name-asc pprint)
+
+          (println "b) sorted by last name (descending)")
+          (-> valid-lines sorted-by-last-name-dsc pprint)
+
+          (println "c) sorted by first name (ascending)")
+          (-> valid-lines sorted-by-last-name-dsc pprint)
+
+          (println "d) sorted by date of birth (ascending)")
+          (-> valid-lines sorted-by-birth-date-asc pprint)))
       (do
         (log/warn (format "Must be one of the following format %s."
                           (->> supported-formats

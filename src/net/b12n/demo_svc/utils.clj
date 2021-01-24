@@ -1,6 +1,12 @@
 (ns net.b12n.demo-svc.utils
   (:require
-   [clojure.string :as str]))
+   [clojure.string
+    :as str]
+   [cljc.java-time.local-date
+    :refer [parse]])
+  (:import
+   [java.time.format
+    DateTimeFormatter]))
 
 (defn map-keys
   "Given a function and a map, returns the map resulting from applying
@@ -23,6 +29,13 @@
   [opts]
   (map-keys (fn [x] (-> x (str/replace-first "--" "") keyword)) opts))
 
+(defn parse-date
+  ([date-string]
+   (parse-date date-string "MM/dd/yyyy"))
+  ([date-string date-format]
+   (-> date-string
+       (parse (DateTimeFormatter/ofPattern date-format)))))
+
 (defn sorted-by-gender-then-last-name-asc
   [data]
   (->> data (sort (fn [x y]
@@ -32,3 +45,15 @@
                         c
                         (compare (:last-name x)
                                  (:last-name y))))))))
+
+(defn sorted-by-first-name-asc
+  [data]
+  (->> data (sort-by :first-name)))
+
+(defn sorted-by-birth-date-asc
+  [data]
+  (->> data (sort-by (fn [x] (-> x :date-of-birth parse-date)))))
+
+(defn sorted-by-last-name-dsc
+  [data]
+  (->> data (sort-by :last-name (fn [x y] (compare y x)))))
