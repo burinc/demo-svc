@@ -8,19 +8,20 @@
     :as log]
    [jsonista.core
     :refer [write-value-as-string]]
-   [me.raynes.fs
-    :refer [extension]]
    [muuntaja.core
     :as m]
    [net.b12n.demo-svc.core
-    :refer [parse-and-validate]]
+    :refer
+    [parse-and-validate]]
    [net.b12n.demo-svc.utils
-    :refer [parse-date
-            transform-keys
-            sorted-by-gender-then-last-name-asc
-            sorted-by-first-name-asc
-            sorted-by-last-name-dsc
-            sorted-by-birth-date-asc]]
+    :refer
+    [file-type
+     parse-date
+     sorted-by-birth-date-asc
+     sorted-by-first-name-asc
+     sorted-by-gender-then-last-name-asc
+     sorted-by-last-name-dsc
+     transform-keys]]
    [reitit.coercion.spec]
    [reitit.dev.pretty
     :as pretty]
@@ -64,23 +65,6 @@
                :gender        (str/capitalize gender)
                :fav-color     (str/capitalize fav-color)
                :date-of-birth date-of-birth}))
-
-(def ^:private support-ext [".csv", ".piped", ".space"])
-
-(defn ^:private support-ext?
-  [file]
-  (some #{(-> file extension str/lower-case)} support-ext))
-
-#_(support-ext? "test.CsV") ;;=> ".csv"
-#_(support-ext? "test.txt") ;;=> nil
-
-(defn file-type
-  [file]
-  (when-let [ext (support-ext? file)]
-    (-> ext
-        str/lower-case
-        (str/replace "." "")
-        keyword)))
 
 ;; Note: assume that we don't have giant input file
 (defn ^:private load-data!

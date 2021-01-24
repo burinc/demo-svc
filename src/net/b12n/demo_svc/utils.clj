@@ -3,7 +3,9 @@
    [clojure.string
     :as str]
    [cljc.java-time.local-date
-    :refer [parse]])
+    :refer [parse]]
+   [me.raynes.fs
+    :refer [extension]])
   (:import
    [java.time.format
     DateTimeFormatter]))
@@ -57,3 +59,20 @@
 (defn sorted-by-last-name-dsc
   [data]
   (->> data (sort-by :last-name (fn [x y] (compare y x)))))
+
+(def ^:private support-ext [".csv", ".piped", ".space"])
+
+(defn ^:private support-ext?
+  [file]
+  (some #{(-> file extension str/lower-case)} support-ext))
+
+#_(support-ext? "test.CsV") ;;=> ".csv"
+#_(support-ext? "test.txt") ;;=> nil
+
+(defn file-type
+  [file]
+  (when-let [ext (support-ext? file)]
+    (-> ext
+        str/lower-case
+        (str/replace "." "")
+        keyword)))
