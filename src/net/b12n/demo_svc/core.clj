@@ -208,9 +208,7 @@ Options:
 
 (comment
   (load-and-display {:input-file "./resources/data-with-invalid-lines.csv"
-                     :file-type :csv})
-
-  )
+                     :file-type :csv}))
 
 (defn ^:private run
   [& [{:keys [input-file file-type help] :as args}]]
