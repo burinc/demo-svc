@@ -13,8 +13,14 @@
    [muuntaja.core
     :as m]
    [net.b12n.demo-svc.core
+    :refer [parse-and-validate]]
+   [net.b12n.demo-svc.utils
     :refer [parse-date
-            parse-and-validate]]
+            transform-keys
+            sorted-by-gender-then-last-name-asc
+            sorted-by-first-name-asc
+            sorted-by-last-name-dsc
+            sorted-by-birth-date-asc]]
    [reitit.coercion.spec]
    [reitit.dev.pretty
     :as pretty]
@@ -104,31 +110,6 @@
           (do
             (log/warn (format "Skipping this line as it is not valid input : %s" line))
             (log/warn (format "Reason: %s" err))))))))
-
-;; TODO: move this to utils.clj
-(defn sorted-by-gender-then-last-name-asc
-  [data]
-  (->> data (sort (fn [x y]
-                    (let [c (compare (-> x :gender str/lower-case)
-                                     (-> y :gender str/lower-case))]
-                      (if-not (zero? c)
-                        c
-                        (compare (:last-name x)
-                                 (:last-name y))))))))
-;; TODO: move this to utils.clj
-(defn sorted-by-first-name-asc
-  [data]
-  (->> data (sort-by :first-name)))
-
-;; TODO: move this to utils.clj
-(defn sorted-by-birth-date-asc
-  [data]
-  (->> data (sort-by (fn [x] (-> x :date-of-birth parse-date)))))
-
-;; TODO: move this to utils.clj
-(defn sorted-by-last-name-dsc
-  [data]
-  (->> data (sort-by :last-name (fn [x y] (compare y x)))))
 
 (defn all-data-handler
   [_]

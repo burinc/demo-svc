@@ -17,7 +17,8 @@
             sorted-by-gender-then-last-name-asc
             sorted-by-first-name-asc
             sorted-by-last-name-dsc
-            sorted-by-birth-date-asc]])
+            sorted-by-birth-date-asc]]
+   )
   (:gen-class))
 
 ;; specs
