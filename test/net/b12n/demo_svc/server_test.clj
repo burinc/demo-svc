@@ -13,20 +13,8 @@
     :refer [read-value
             write-value-as-string
             keyword-keys-object-mapper]]
-   [net.b12n.demo-svc.server
-    :refer [app
-            file-type]]
    [ring.mock.request
     :refer [request]]))
-
-(deftest file-type-test
-  (testing "basic file type"
-    (are [result arg-map] (= result (file-type (:filename arg-map)))
-      nil    {:filename "test.txt"}
-      :csv   {:filename "data.csv"}
-      :space {:filename "data.space"}
-      :piped {:filename "data.piped"}
-      :piped {:filename "data.PipEd"})))
 
 (deftest basic-routing
   (testing "GET"

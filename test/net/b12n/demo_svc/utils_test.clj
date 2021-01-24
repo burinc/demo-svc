@@ -7,13 +7,14 @@
      testing]]
    [net.b12n.demo-svc.utils
     :refer
-    [parse-date
+    [file-type
      map-keys
-     transform-keys
-     sorted-by-gender-then-last-name-asc
+     parse-date
+     sorted-by-birth-date-asc
      sorted-by-first-name-asc
+     sorted-by-gender-then-last-name-asc
      sorted-by-last-name-dsc
-     sorted-by-birth-date-asc]])
+     transform-keys]])
   (:import
    [java.time
     DateTimeException
@@ -129,3 +130,12 @@
              ["Johnson" "Josh" "M" "Blue" "06/18/1990"]
              ["Henry" "Jill" "F" "White" "10/18/1980"]
              ["Barry" "Jane" "F" "Pink" "07/18/1950"])))))
+
+(deftest file-type-test
+  (testing "basic file type"
+    (are [result arg-map] (= result (file-type (:filename arg-map)))
+      nil    {:filename "test.txt"}
+      :csv   {:filename "data.csv"}
+      :space {:filename "data.space"}
+      :piped {:filename "data.piped"}
+      :piped {:filename "data.PipEd"})))
