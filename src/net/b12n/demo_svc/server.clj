@@ -93,42 +93,12 @@
             (log/warn (format "Skipping this line as it is not valid input : %s" line))
             (log/warn (format "Reason: %s" err))))))))
 
-(defn ^:private all-data-handler
-  [_]
-  {:status 200
-   :headers {"Content-Type" "text/json"}
-   :body (-> @people-db write-value-as-string)})
-
-(defn ^:private gender-handler
-  [_]
+(defn ^:private sorter-handler
+  [sorter-fn]
   {:status 200
    :headers {"Content-Type" "text/json"}
    :body (-> @people-db
-             sorted-by-gender-then-last-name-asc
-             write-value-as-string)})
-
-(defn ^:private birth-date-handler
-  [_]
-  {:status 200
-   :headers {"Content-Type" "text/json"}
-   :body (-> @people-db
-             sorted-by-birth-date-asc
-             write-value-as-string)})
-
-(defn ^:private first-name-handler
-  [_]
-  {:status 200
-   :headers {"Content-Type" "text/json"}
-   :body (-> @people-db
-             sorted-by-first-name-asc
-             write-value-as-string)})
-
-(defn ^:private last-name-handler
-  [_]
-  {:status 200
-   :headers {"Content-Type" "text/json"}
-   :body (-> @people-db
-             sorted-by-last-name-dsc
+             sorter-fn
              write-value-as-string)})
 
 (defn ^:private delete-record-handler
@@ -200,31 +170,26 @@
   (ring/ring-handler
    (ring/router
     [["/swagger.json"
-      {:get
-       {:no-doc true
-        :swagger {:info {:title "Simple REST API"
-                         :description "Build with reitit-ring"}}
-        :handler (swagger/create-swagger-handler)}}]
+      {:get {:no-doc true
+             :swagger {:info {:title "Simple REST API"
+                              :description "Build with reitit-ring"}}
+             :handler (swagger/create-swagger-handler)}}]
      ["/records"
       {:swagger {:tags ["records"]}}
       ["/"
-       {:get
-        {:summary "List all records in the system"
-         :handler all-data-handler}
+       {:get {:summary "List all records in the system"
+              :handler (fn [_] (sorter-handler identity))}
+        :post {:summary "Add a new record to the system"
+               :parameters {:body {:last-name string?,
+                                   :first-name string?
+                                   :gender string?
+                                   :fav-color string?
+                                   :date-of-birth string?}}
+               :responses {200 {:body string?}}
+               :handler create-record-handler}
 
-        :post
-        {:summary "Add a new record to the system"
-         :parameters {:body {:last-name string?,
-                             :first-name string?
-                             :gender string?
-                             :fav-color string?
-                             :date-of-birth string?}}
-         :responses {200 {:body string?}}
-         :handler create-record-handler}
-
-        :delete
-        {:summary "Delete all data from the system! (intended for use during test)"
-         :handler delete-record-handler}}]
+        :delete {:summary "Delete all data from the system! (intended for use during test)"
+                 :handler delete-record-handler}}]
 
       ["/upload"
        {:post {:summary "Populate database from input file (must have extension .csv, .space, .piped)"
@@ -246,21 +211,20 @@
                                :headers {"Content-Type" "text/json"}
                                :body (write-value-as-string {:err (format "File not supported, please use .csv, .piped, or .space for extension")})})))}}]
       ["/gender"
-       {:get
-        {:summary "List all records sorted by gender (female before male) and last-name"
-         :handler gender-handler}}]
+       {:get {:summary "List all records sorted by gender (female before male) and last-name"
+              :handler (fn [_] (sorter-handler sorted-by-gender-then-last-name-asc))}}]
+
       ["/lastname"
-       {:get
-        {:summary "List all records sorted by last-name"
-         :handler last-name-handler}}]
+       {:get {:summary "List all records sorted by last-name"
+              :handler (fn [_] (sorter-handler sorted-by-last-name-dsc))}}]
+
       ["/firstname"
-       {:get
-        {:summary "List all records sorted by first-name"
-         :handler first-name-handler}}]
+       {:get {:summary "List all records sorted by first-name"
+              :handler (fn [_] (sorter-handler sorted-by-first-name-asc))}}]
+
       ["/birthdate"
-       {:get
-        {:summary "List all records sorted by date-of-birth"
-         :handler birth-date-handler}}]]]
+       {:get {:summary "List all records sorted by date-of-birth"
+              :handler (fn [_] (sorter-handler sorted-by-birth-date-asc))}}]]]
     {:exception pretty/exception
      :data {:coercion reitit.coercion.spec/coercion
             :muuntaja m/instance
