@@ -2,4 +2,4 @@
 set -eo pipefail
 ## Note: must start system first via $lein run
 ## as this will run regular test + integration tests which require live server to be up
-lein cloverage
+lein cloverage -p src -s test -n net\.b12n\.demo-svc\.*

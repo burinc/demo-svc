@@ -5,7 +5,10 @@
    [clojure.java.io
     :as io]
    [clojure.test
-    :refer [are deftest is testing]]
+    :refer [are
+            deftest
+            is
+            testing]]
    [jsonista.core
     :as json]
    [net.b12n.demo-svc.server
@@ -110,3 +113,5 @@
       (are [expected result] (= expected result)
         200  status
         true (> (count response) 0)))))
+
+#_(clojure.test/run-tests)
