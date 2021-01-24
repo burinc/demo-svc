@@ -16,12 +16,10 @@
    [net.b12n.demo-svc.utils
     :refer
     [file-type
-     parse-date
      sorted-by-birth-date-asc
      sorted-by-first-name-asc
      sorted-by-gender-then-last-name-asc
-     sorted-by-last-name-dsc
-     transform-keys]]
+     sorted-by-last-name-dsc]]
    [reitit.coercion.spec]
    [reitit.dev.pretty
     :as pretty]

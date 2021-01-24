@@ -113,5 +113,3 @@
       (are [expected result] (= expected result)
         200  status
         true (> (count response) 0)))))
-
-#_(clojure.test/run-tests)

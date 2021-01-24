@@ -15,7 +15,6 @@
     :refer [parse-date
             transform-keys
             sorted-by-gender-then-last-name-asc
-            sorted-by-first-name-asc
             sorted-by-last-name-dsc
             sorted-by-birth-date-asc]])
   (:gen-class))
@@ -58,8 +57,6 @@
 (s/def ::delimiters #{::piped ::csv ::space})
 
 (s/def ::supported-formats supported-formats)
-
-(s/def ::sort-keys #{:gender-lastname :date-of-birth :first-name :last-name :fav-color})
 
 (s/def ::input-line (s/cat :last-name     ::last-name
                            :first-name    ::first-name
@@ -144,13 +141,6 @@ Options:
                  (-> x :err not)))
        (map :data)))
 
-#_(comment
-    ;; filter out the valid input only
-    (when-let [lines (-> "./resources/data-with-invalid-lines.csv"
-                         slurp
-                         str/split-lines)]
-      (filter-valid-lines lines :csv)))
-
 (defn filter-invalid-lines
   "Return the collection of lines that have errors.
   '({:data \"...\" :err \"error details 1\"}
@@ -160,15 +150,6 @@ Options:
   (->> (process-lines lines :csv)
        (filter (fn [x]
                  (-> x :err)))))
-
-#_(comment
-    ;; filter out the invalid input only
-    (when-let [lines (-> "./resources/data-with-invalid-lines.csv"
-                         slurp
-                         str/split-lines)]
-      (doseq [{:keys [data err]} (filter-invalid-lines lines :csv)]
-        (println data)
-        (println err))))
 
 (defn ^:private load-and-display
   [{:keys [input-file file-type]}]
@@ -184,31 +165,25 @@ Options:
                                (str/split-lines))]
         (filter-valid-lines raw-lines file-type)
         (let [invalid-lines (filter-invalid-lines raw-lines file-type)
-              _ (if-not (-> invalid-lines count zero?)
+              _ (when-not (-> invalid-lines count zero?)
                   (doseq [{:keys [data err]} (filter-invalid-lines raw-lines :csv)]
                     (log/warn (format "Invalid line : `%s` due to `%s`" data err))))
               valid-lines (filter-valid-lines raw-lines file-type)]
-          (do
-            (println "a) sorted by gender and then last name (ascending)")
-            (-> valid-lines sorted-by-gender-then-last-name-asc pprint)
+          (println "a) sorted by gender and then last name (ascending)")
+          (-> valid-lines sorted-by-gender-then-last-name-asc pprint)
 
-            (println "b) sorted by last name (descending)")
-            (-> valid-lines sorted-by-last-name-dsc pprint)
+          (println "b) sorted by last name (descending)")
+          (-> valid-lines sorted-by-last-name-dsc pprint)
 
-            (println "c) sorted by first name (ascending)")
-            (-> valid-lines sorted-by-last-name-dsc pprint)
+          (println "c) sorted by first name (ascending)")
+          (-> valid-lines sorted-by-last-name-dsc pprint)
 
-            (println "d) sorted by date of birth (ascending)")
-            (-> valid-lines sorted-by-birth-date-asc pprint))))
-      (do
-        (log/warn (format "Must be one of the following format %s."
-                          (->> supported-formats
-                               (map name)
-                               (str/join ", "))))))))
+          (println "d) sorted by date of birth (ascending)")
+          (-> valid-lines sorted-by-birth-date-asc pprint)))
+      (log/warn (format "Must be one of the following format %s."
+                        (->> supported-formats (map name) (str/join ", ")))))))
 
-(comment
-  (load-and-display {:input-file "./resources/data-with-invalid-lines.csv"
-                     :file-type :csv}))
+#_(load-and-display {:input-file "./resources/data-with-invalid-lines.csv" :file-type :csv})
 
 (defn ^:private run
   [& [{:keys [input-file file-type help] :as args}]]
