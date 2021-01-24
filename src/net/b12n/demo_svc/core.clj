@@ -17,8 +17,7 @@
             sorted-by-gender-then-last-name-asc
             sorted-by-first-name-asc
             sorted-by-last-name-dsc
-            sorted-by-birth-date-asc]]
-   )
+            sorted-by-birth-date-asc]])
   (:gen-class))
 
 ;; specs
@@ -115,6 +114,31 @@ Options:
 
   # c) Show help
   srk -h")
+
+
+(defn process-lines
+  [lines file-type]
+  (for [line lines
+        :let [{:keys [last-name first-name gender fav-color date-of-birth err] :as args}
+              (parse-and-validate {:type file-type :data line})]]
+    (if err
+      {:data      line
+       :file-type file-type
+       :err       err}
+      {:data      (dissoc args :err)
+       :file-type file-type
+       :err       nil})))
+
+#_
+(comment
+  ;; filter out the valid input only
+  (when-let [lines (-> "./resources/data-with-invalid-lines.csv"
+                       slurp
+                       str/split-lines)]
+    (->> (process-lines lines :csv)
+         (filter (fn [x]
+                   (-> x :err not)))
+         (map (fn [x] (dissoc x :err))))))
 
 (defn ^:private load-and-display
   [{:keys [input-file file-type]}]

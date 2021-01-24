@@ -27,9 +27,9 @@
 
 (deftest transform-keys-test
   (testing "transform-keys"
-    (is (= (transform-keys {"--profile" "dev", "--region" "us-east-1" })
+    (is (= (transform-keys {"--profile" "dev", "--region" "us-east-1"})
            {:profile "dev", :region "us-east-1"}))
-    (is (= (transform-keys {"--profile" "dev", "create" "true" })
+    (is (= (transform-keys {"--profile" "dev", "create" "true"})
            {:profile "dev", :create "true"}))))
 
 (deftest parse-date-test
