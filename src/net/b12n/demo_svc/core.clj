@@ -151,6 +151,20 @@ Options:
        (filter (fn [x]
                  (-> x :err)))))
 
+(defn ^:private display-records
+  [records]
+  (println "a) sorted by gender and then last name (ascending)\n")
+  (-> records sorted-by-gender-then-last-name-asc pprint)
+
+  (println "b) sorted by last name (descending)\n")
+  (-> records sorted-by-last-name-dsc pprint)
+
+  (println "c) sorted by first name (ascending)\n")
+  (-> records sorted-by-last-name-dsc pprint)
+
+  (println "d) sorted by date of birth (ascending)\n")
+  (-> records sorted-by-birth-date-asc pprint))
+
 (defn ^:private load-and-display
   [{:keys [input-file file-type]}]
   (let [file-type (keyword file-type)
@@ -169,17 +183,7 @@ Options:
                   (doseq [{:keys [data err]} (filter-invalid-lines raw-lines :csv)]
                     (log/warn (format "Invalid line : `%s` due to `%s`" data err))))
               valid-lines (filter-valid-lines raw-lines file-type)]
-          (println "a) sorted by gender and then last name (ascending)")
-          (-> valid-lines sorted-by-gender-then-last-name-asc pprint)
-
-          (println "b) sorted by last name (descending)")
-          (-> valid-lines sorted-by-last-name-dsc pprint)
-
-          (println "c) sorted by first name (ascending)")
-          (-> valid-lines sorted-by-last-name-dsc pprint)
-
-          (println "d) sorted by date of birth (ascending)")
-          (-> valid-lines sorted-by-birth-date-asc pprint)))
+          (display-records valid-lines)))
       (log/warn (format "Must be one of the following format %s."
                         (->> supported-formats (map name) (str/join ", ")))))))
 
