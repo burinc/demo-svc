@@ -1,5 +1,32 @@
 # demo-svc - Simple REST api build
 
+## Design Decision
+
+For the REST api server the state of the application is stored as Clojure atom.
+
+See `people-db` atom in code. In real world application this would have been stored in
+the database like PostgreSQL.
+
+Thus the data will not be saved when the server is re-started.
+
+The system is currently determine the type of input using the extension for API code.
+e.g. It will only take in the file that have `*.csv`, `*.space`, and `*.piped` via `upload` end-point.
+
+
+The system will be skipping invalid input and only logs the result to the console if such input line is found.
+
+On the server the logs will be something like:
+
+```
+[main] INFO net.b12n.demo-svc.server - server running on port 3000
+[qtp1205543136-21] INFO net.b12n.demo-svc.server - File saved to : /home/b12n/codes/demo-svc/uploads/data-with-invalid-lines.csv
+[qtp1205543136-21] WARN net.b12n.demo-svc.server - Skipping this line as it is not valid input : Johnson,Josh,M,Blue,06/18/19XX
+[qtp1205543136-21] WARN net.b12n.demo-svc.server - Reason: "06/18/19XX" - failed: valid-date? in: [4] at: [:date-of-birth] spec: :net.b12n.demo-svc.core/date-of-birth
+
+[qtp1205543136-21] WARN net.b12n.demo-svc.server - Skipping this line as it is not valid input : Barry,Jane,X,Pink,07/18/1950
+[qtp1205543136-21] WARN net.b12n.demo-svc.server - Reason: "X" - failed: valid-gender? in: [2] at: [:gender] spec: :net.b12n.demo-svc.core/gender
+```
+
 ## Development/Build
 
 Run server using the script `./run-server`
