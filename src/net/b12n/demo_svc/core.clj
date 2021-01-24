@@ -154,16 +154,16 @@ Options:
 
 (defn ^:private display-records
   [records]
-  (println "a) sorted by gender and then last name (ascending)\n")
+  (println "a) sorted by gender and then last name (ascending)")
   (-> records sorted-by-gender-then-last-name-asc pprint)
 
-  (println "b) sorted by last name (descending)\n")
+  (println "\nb) sorted by last name (descending)")
   (-> records sorted-by-last-name-dsc pprint)
 
-  (println "c) sorted by first name (ascending)\n")
+  (println "\n c) sorted by first name (ascending)")
   (-> records sorted-by-first-name-asc pprint)
 
-  (println "d) sorted by date of birth (ascending)\n")
+  (println "\nd) sorted by date of birth (ascending)")
   (-> records sorted-by-birth-date-asc pprint))
 
 (defn ^:private load-and-display

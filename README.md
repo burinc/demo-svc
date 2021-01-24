@@ -59,9 +59,9 @@ Loading namespaces:  (net.b12n.demo-svc.utils net.b12n.demo-svc.core net.b12n.de
 Test namespaces:  (net.b12n.demo-svc.core-test net.b12n.demo-svc.server-integration-test net.b12n.demo-svc.server-test net.b12n.demo-svc.utils-test)
 Instrumented net.b12n.demo-svc.utils
 Instrumented net.b12n.demo-svc.core
-[main] INFO org.eclipse.jetty.util.log - Logging initialized @5254ms to org.eclipse.jetty.util.log.Slf4jLog
+[main] INFO org.eclipse.jetty.util.log - Logging initialized @5433ms to org.eclipse.jetty.util.log.Slf4jLog
 Instrumented net.b12n.demo-svc.server
-Instrumented 3 namespaces in 2.7 seconds.
+Instrumented 3 namespaces in 2.8 seconds.
 
 Testing net.b12n.demo-svc.core-test
 
@@ -80,11 +80,11 @@ Writing HTML report to: /home/b12n/codes/demo-svc/target/coverage/index.html
 |--------------------------+---------+---------|
 |                Namespace | % Forms | % Lines |
 |--------------------------+---------+---------|
-|   net.b12n.demo-svc.core |   52.86 |   58.00 |
-| net.b12n.demo-svc.server |   59.12 |   77.59 |
+|   net.b12n.demo-svc.core |   51.88 |   59.38 |
+| net.b12n.demo-svc.server |   59.06 |   77.46 |
 |  net.b12n.demo-svc.utils |  100.00 |  100.00 |
 |--------------------------+---------+---------|
-|                ALL FILES |   60.58 |   73.53 |
+|                ALL FILES |   60.26 |   74.09 |
 |--------------------------+---------+---------|
 ```
 
@@ -158,8 +158,8 @@ OpenJDK 64-Bit Server VM warning: forcing TieredStopAtLevel to full optimization
 `
 [main] WARN net.b12n.demo-svc.core - Invalid line : `Barry,Jane,X,Pink,07/18/1950` due to `"X" - failed: valid-gender? in: [2] at: [:gender] spec: :net.b12n.demo-svc.core/gender
 `
-a) sorted by gender and then last name (ascending)
 
+a) sorted by gender and then last name (ascending)
 ({:last-name "Barry",
   :first-name "Jane",
   :gender "F",
@@ -180,8 +180,8 @@ a) sorted by gender and then last name (ascending)
   :gender "M",
   :fav-color "Red",
   :date-of-birth "06/18/2000"})
-b) sorted by last name (descending)
 
+b) sorted by last name (descending)
 ({:last-name "Smith",
   :first-name "John",
   :gender "M",
@@ -202,8 +202,8 @@ b) sorted by last name (descending)
   :gender "F",
   :fav-color "Pink",
   :date-of-birth "07/18/1950"})
-c) sorted by first name (ascending)
 
+c) sorted by first name (ascending)
 ({:last-name "Barry",
   :first-name "Jane",
   :gender "F",
@@ -224,8 +224,8 @@ c) sorted by first name (ascending)
   :gender "M",
   :fav-color "Blue",
   :date-of-birth "06/18/1990"})
-d) sorted by date of birth (ascending)
 
+d) sorted by date of birth (ascending)
 ({:last-name "Barry",
   :first-name "Jane",
   :gender "F",
