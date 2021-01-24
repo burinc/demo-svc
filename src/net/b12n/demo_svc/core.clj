@@ -128,7 +128,11 @@ Options:
                       file-type))
     ;; Now we can check and confirm if the file is valid input
     (if (s/valid? ::supported-formats file-type)
-      :ok
+      (let [data (-> input-file
+                     slurp
+                     (str/split-lines))]
+        ;; Add basic wiring
+        (log/info "Your data :" data))
       (do
         (log/warn (format "Must be one of the following format %s."
                           (->> supported-formats
