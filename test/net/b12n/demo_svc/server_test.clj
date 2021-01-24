@@ -13,6 +13,8 @@
     :refer [read-value
             write-value-as-string
             keyword-keys-object-mapper]]
+   [net.b12n.demo-svc.server
+    :refer [app]]
    [ring.mock.request
     :refer [request]]))
 

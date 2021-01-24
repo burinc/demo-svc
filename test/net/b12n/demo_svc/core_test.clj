@@ -6,13 +6,11 @@
     :refer [deftest is testing]]
    [net.b12n.demo-svc.core
     :refer [parse-and-validate
-            parse-date
             parse-record]])
   (:import
    [java.time
     DateTimeException
     LocalDate]))
-
 #_
 (deftest parse-date-test
   (testing "parse-date"

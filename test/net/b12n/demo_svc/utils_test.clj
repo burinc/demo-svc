@@ -2,7 +2,8 @@
   (:require
    [clojure.test
     :refer
-    [deftest
+    [are
+     deftest
      is
      testing]]
    [net.b12n.demo-svc.utils
