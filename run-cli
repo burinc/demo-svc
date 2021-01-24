@@ -1,4 +1,6 @@
 #!/usr/bin/env bash
-## Run live server - required for integration test
+## Run the main cli and show the result to console
 set -eo pipefail
-lein run -m net.b12n.demo-svc.core "$@"
+input_file=${1:-resources/data-with-invalid-lines.csv}
+file_type=${2:-csv}
+lein run -m net.b12n.demo-svc.core -i $input_file -t $file_type
